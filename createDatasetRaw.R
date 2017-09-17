@@ -18,9 +18,9 @@ library(rvest)
 library(plyr)
 
 cleveland <- read_csv(file="cleveland.data.csv",col_names=FALSE)
-swiss <- read_csv(file="hungarian.data.csv",col_names=FALSE)
-va <- read_csv(file="va.data.csv",col_names=FALSE)
-hungary <- read_csv(file="switzerland.data.csv",col_names=FALSE)
+hungary <- read_csv(file="hungarian.data.csv",col_names=FALSE)
+va <- read_csv(file="long-beach-va.data.csv",col_names=FALSE)
+swiss <- read_csv(file="switzerland.data.csv",col_names=FALSE)
 
 namesvec <- c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang"    
               ,"oldpeak"  
