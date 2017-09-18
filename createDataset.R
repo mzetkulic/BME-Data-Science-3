@@ -14,6 +14,7 @@ library(ggplot2)
 library(reshape2)
 library(tidyr)
 library(UsingR)
+library(rvest)
 library(plyr)
 
 cleveland <- read_csv(file="processed.cleveland.data.csv",col_names=FALSE)

@@ -17,24 +17,72 @@ library(UsingR)
 library(rvest)
 library(plyr)
 
-cleveland <- read_csv(file="cleveland.data.csv",col_names=FALSE)
-hungary <- read_csv(file="hungarian.data.csv",col_names=FALSE)
-va <- read_csv(file="long-beach-va.data.csv",col_names=FALSE)
-swiss <- read_csv(file="switzerland.data.csv",col_names=FALSE)
+ColNames <- c('id','ccf','age','sex','painloc','painexer','relrest','pncaden','cp','trestbps','htn','chol','smoke','cigs','years','fbs','dm','famhist','restecg','ekgmo','ekgday','ekgyr','dig','prop','nitr','pro','diuretic','proto','thaldu','thaltime','met','thalach','thalrest','tpeakbps','tpeakbpd','dummy','trestbpd','exang','xhypo','oldpeak','slope','rldv5','rldv5e','ca','restckm','exerckm','restef','restwm','exeref','exerwm','thal','thalsev','thalpul','earlobe','cmo','cday','cyr','num','lmt','ladprox','laddist','diag','cxmain','ramus','om1','om2','rcaprox','rcadist','lvx1','lvx2','lvx3','lvx4','lvf','cathef','junk','name','na','na','na','na')
 
-namesvec <- c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang"    
-              ,"oldpeak"  
-              ,"slope"  
-              ,"ca"        
-              ,"thal"    
-              ,"num")
 
-# names(cleveland) <- namesvec
-# names(swiss) <- namesvec
-# names(va) <- namesvec
-# names(hungary) <- namesvec
-# 
-# all <- rbind(cleveland,swiss,va,hungary)
+cleveland <- read.csv(file="cleveland.data.csv",sep=' ',header=FALSE)
+hungary <- read.csv(file="hungarian.data.csv",sep=' ',header=FALSE)
+va <- read.csv(file="long-beach-va.data.csv",sep=' ',header=FALSE)
+swiss <- read.csv(file="switzerland.data.csv",sep=' ',header=FALSE)
+
+for (i in seq(1,nrow(swiss),10)){
+  a <- swiss[i,]
+  for (j in 1:9){
+    b <- swiss[i+j,]
+    a <- cbind(a,b)
+  }
+  names(a) <- ColNames
+  if (i==1){
+    swissclean <- a
+  } else {
+    swissclean <- rbind.fill(swissclean,a)
+  }
+}
+
+for (i in seq(1,nrow(va),10)){
+  a <- va[i,]
+  for (j in 1:9){
+    b <- va[i+j,]
+    a <- cbind(a,b)
+  }
+  names(a) <- ColNames
+  if (i==1){
+    vaclean <- a
+  } else {
+    vaclean <- rbind.fill(vaclean,a)
+  }
+}
+
+for (i in seq(1,nrow(cleveland),10)){
+  a <- cleveland[i,]
+  for (j in 1:9){
+    b <- cleveland[i+j,]
+    a <- cbind(a,b)
+  }
+  names(a) <- ColNames
+  if (i==1){
+    clevelandclean <- a
+  } else {
+    clevelandclean <- rbind.fill(clevelandclean,a)
+  }
+}
+
+for (i in seq(1,nrow(hungary),10)){
+  a <- hungary[i,]
+  for (j in 1:9){
+    b <- hungary[i+j,]
+    a <- cbind(a,b)
+  }
+  names(a) <- ColNames
+  if (i==1){
+    hungaryclean <- a
+  } else {
+    hungaryclean <- rbind.fill(hungaryclean,a)
+  }
+}
+
+all <- rbind(clevelandclean,swissclean,vaclean,hungaryclean)
+all <- na.omit(all)
 # 
 # allclean <- all %>% filter(!(age=="?")) %>% filter(!(sex=="?")) %>% filter(!(trestbps=="?")) %>% filter(!(num=="?"))
 # # removing "?" values for relevant columns
@@ -46,8 +94,11 @@ namesvec <- c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exan
 # allclean <- transform(allclean, sex = as.numeric(sex))
 # allclean <- transform(allclean, chol = as.numeric(chol))
 # fit <- rpart(num ~ chol,data=allclean,method="class")
-# 
-# library(randomForest)
-# fit <- randomForest(num ~ chol + age + trestbps + sex,data=allclean)
-# print(fit) # view results 
-# importance(fit) # importance of each predictor
+
+library(randomForest)
+
+#fit <- randomForest(num ~
+#                       id + ccf + age + sex + painloc + painexer + relrest + pncaden + cp + trestbps + htn + chol + smoke + cigs + years + fbs + dm + famhist + restecg + ekgmo + ekgday + ekgyr + dig + prop + nitr + pro + diuretic + proto + thaldu + thaltime + met + thalach + thalrest + tpeakbps + tpeakbpd + dummy + trestbpd + exang + xhypo + oldpeak + slope + rldv5 + rldv5e + ca + restckm + exerckm + restef + restwm + exeref + exerwm + thal + thalsev + thalpul + earlobe + cmo + cday + cyr + num + lmt + ladprox + laddist + diag + cxmain + ramus + om1 + om2 + rcaprox + rcadist + lvx1 + lvx2 + lvx3 + lvx4 + lvf + cathef + junk + name + na + na + na + na
+#                     ,data=all)
+#print(fit) # view results
+#importance(fit) # importance of each predictor
