@@ -81,7 +81,7 @@ for (i in seq(1,nrow(hungary),10)){
   }
 }
 
-all <- rbind(clevelandclean,swissclean,vaclean,hungaryclean)
+all <- rbind(swissclean,vaclean,hungaryclean)
 all <- na.omit(all)
 # 
 # allclean <- all %>% filter(!(age=="?")) %>% filter(!(sex=="?")) %>% filter(!(trestbps=="?")) %>% filter(!(num=="?"))
@@ -97,8 +97,10 @@ all <- na.omit(all)
 
 library(randomForest)
 
-#fit <- randomForest(num ~
-#                       id + ccf + age + sex + painloc + painexer + relrest + pncaden + cp + trestbps + htn + chol + smoke + cigs + years + fbs + dm + famhist + restecg + ekgmo + ekgday + ekgyr + dig + prop + nitr + pro + diuretic + proto + thaldu + thaltime + met + thalach + thalrest + tpeakbps + tpeakbpd + dummy + trestbpd + exang + xhypo + oldpeak + slope + rldv5 + rldv5e + ca + restckm + exerckm + restef + restwm + exeref + exerwm + thal + thalsev + thalpul + earlobe + cmo + cday + cyr + num + lmt + ladprox + laddist + diag + cxmain + ramus + om1 + om2 + rcaprox + rcadist + lvx1 + lvx2 + lvx3 + lvx4 + lvf + cathef + junk + name + na + na + na + na
-#                     ,data=all)
-#print(fit) # view results
-#importance(fit) # importance of each predictor
+fit <- randomForest(num ~
+                      id + ccf + age + sex + painloc + painexer + relrest + pncaden + cp + trestbps + htn + chol + smoke + cigs + years + fbs + dm + famhist + restecg + ekgmo + ekgday + ekgyr + dig + prop + nitr + pro + diuretic + proto + thaldu + thaltime + met + thalach + thalrest + tpeakbps + tpeakbpd + dummy + trestbpd + exang + xhypo + oldpeak + slope + rldv5 + rldv5e + ca + restckm + exerckm + restef + restwm + exeref + exerwm + thal + thalsev + thalpul + earlobe + cmo + cday + cyr + num + lmt + ladprox + laddist + diag + cxmain + ramus + om1 + om2 + rcaprox + rcadist + lvx1 + lvx2 + lvx3 + lvx4 + lvf + cathef + junk + name + na + na + na + na
+                    ,data=all)
+fit <- randomForest(num ~ painloc,data=all)
+print(fit) # view results
+importance(fit) # importance of each predictor
+
