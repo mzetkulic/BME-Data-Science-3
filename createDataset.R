@@ -52,6 +52,8 @@ all <- all[!is.na(as.numeric(as.character(all$num))),]
 
 allclean <- all
 
+allclean$num[allclean$num>1] <- 1
+
 write.csv(allclean,"14clean.csv")
 
 allnew <- as.numeric(as.character(all$age))
@@ -74,6 +76,6 @@ allclean[,14] <- pmin(allclean$num,1)
 fit <- rpart(num ~ chol,data=allclean,method="class")
 
 library(randomForest)
-fit <- randomForest(num ~ chol + age + trestbps + sex,data=allclean)
+fit <- randomForest(num ~ chol + age + trestbps + sex,data=allnew)
 print(fit) # view results 
 importance(fit) # importance of each predictor
